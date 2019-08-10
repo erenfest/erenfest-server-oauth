@@ -17,9 +17,9 @@ export interface AccessTokenOption {
 const SECRET_KEY = Symbol('secretKey')
 
 export class AccessToken implements Token<AccessTokenData> {
-  private readonly [SECRET_KEY]: string
+  readonly [SECRET_KEY]: string
 
-  public constructor(secretKey: string) {
+  constructor(secretKey: string) {
     if (!secretKey) {
       throw new NoSecretKeyError()
     }
@@ -27,7 +27,7 @@ export class AccessToken implements Token<AccessTokenData> {
     this[SECRET_KEY] = secretKey
   }
 
-  public async encode(data: AccessTokenData, { issuedAt = new Date() }: AccessTokenOption = {}) {
+  async encode(data: AccessTokenData, { issuedAt = new Date() }: AccessTokenOption = {}) {
     return new Promise<string>((resolve, reject) => {
       const payload = { iat: issuedAt.getTime(), data }
       sign(payload, this[SECRET_KEY], { algorithm: SignatureAlgorithm.Hs256, expiresIn: '6h' }, (error, token) => {
@@ -40,7 +40,7 @@ export class AccessToken implements Token<AccessTokenData> {
     })
   }
 
-  public async decode(token: string) {
+  async decode(token: string) {
     return new Promise<Payload<AccessTokenData>>((resolve, reject) => {
       verify(token, this[SECRET_KEY], (error, payload) => {
         if (error) {
