@@ -12,17 +12,23 @@ export interface RefreshTokenOption {
   readonly expiredAt: Date
 }
 
+const SECRET_KEY = Symbol('secretKey')
+
 export class RefreshToken implements Token<RefreshTokenData> {
-  public constructor(private readonly secretKey: string) {
+  readonly [SECRET_KEY]: string
+
+  constructor(secretKey: string) {
     if (!secretKey) {
       throw new NoSecretKeyError()
     }
+
+    this[SECRET_KEY] = secretKey
   }
 
-  public async encode(data: RefreshTokenData, { issuedAt, expiredAt }: RefreshTokenOption) {
+  async encode(data: RefreshTokenData, { issuedAt, expiredAt }: RefreshTokenOption) {
     return new Promise<string>((resolve, reject) => {
       const payload = { iat: issuedAt.getTime(), exp: expiredAt.getTime(), data }
-      sign(payload, this.secretKey, { algorithm: SignatureAlgorithm.Hs256 }, (error, token) => {
+      sign(payload, this[SECRET_KEY], { algorithm: SignatureAlgorithm.Hs256 }, (error, token) => {
         if (error) {
           reject(error)
         } else {
@@ -32,9 +38,9 @@ export class RefreshToken implements Token<RefreshTokenData> {
     })
   }
 
-  public async decode(token: string) {
+  async decode(token: string) {
     return new Promise<Payload<RefreshTokenData>>((resolve, reject) => {
-      verify(token, this.secretKey, (error, payload) => {
+      verify(token, this[SECRET_KEY], (error, payload) => {
         if (error) {
           reject(error)
         } else {

@@ -9,27 +9,27 @@ export { Header } from './Header'
 export { Cookie } from './Cookie'
 
 export class Response {
-  public static get Empty() {
+  static get Empty() {
     return new Response(StatusCode.Ok)
   }
 
-  public static create(statusCode: StatusCode, body: any, headers?: Header) {
+  static create(statusCode: StatusCode, body: any, headers?: Header) {
     return new Response(statusCode, Body.create(body), headers)
   }
 
-  public static redirect(headers: Header) {
+  static redirect(headers: Header) {
     return new Response(StatusCode.TemporaryRedirect, Body.Empty, headers)
   }
 
-  public static fromError({ name, message, statusCode }: HttpError) {
+  static fromError({ name, message, statusCode }: HttpError) {
     return new Response(statusCode, Body.create({ name, message }))
   }
 
-  public readonly cookie = Cookie.Empty
+  readonly cookie = Cookie.Empty
 
   private constructor(public statusCode = StatusCode.Ok, public body = Body.Empty, public headers = Header.Empty) {}
 
-  public toPacket(): Packet {
+  toPacket(): Packet {
     const { statusCode, headers, cookie, body } = this
     const multiValueHeaders = headers.toRaw()
     if (!cookie.isEmpty) {

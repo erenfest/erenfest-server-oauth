@@ -1,4 +1,4 @@
 export abstract class BaseError extends Error {
-  public abstract readonly name: string
-  public abstract readonly message: string
+  abstract readonly name: string
+  abstract readonly message: string
 }

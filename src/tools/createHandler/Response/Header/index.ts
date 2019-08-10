@@ -1,9 +1,11 @@
+const HEADER = Symbol('header')
+
 export class Header {
-  public static get Empty() {
+  static get Empty() {
     return new Header()
   }
 
-  public static fromRecord(record: Record<string, readonly any[]>) {
+  static fromRecord(record: Record<string, readonly any[]>) {
     const header = new Header()
     for (const key in record) {
       header.setKey(key, record[key])
@@ -11,38 +13,42 @@ export class Header {
     return header
   }
 
-  public static fromMap(map: Map<string, readonly any[]>) {
+  static fromMap(map: Map<string, readonly any[]>) {
     return new Header(map)
   }
 
-  private constructor(private _header = new Map<string, readonly any[]>()) {}
+  [HEADER]: Map<string, readonly any[]>
 
-  public get header() {
-    return this._header
+  private constructor(header = new Map<string, readonly any[]>()) {
+    this[HEADER] = header
   }
 
-  public toRaw() {
+  get header() {
+    return this[HEADER]
+  }
+
+  toRaw() {
     const raw = {}
-    const header = this._header
+    const header = this[HEADER]
     for (const [key, value] of header.values()) {
       raw[key] = value
     }
     return raw
   }
 
-  public set(header: Header) {
-    this._header = header.header
+  set(header: Header) {
+    this[HEADER] = header.header
   }
 
-  public setKey(key: string, values: readonly any[]) {
-    this._header.set(key, values.map(value => JSON.stringify(value)))
+  setKey(key: string, values: readonly any[]) {
+    this[HEADER].set(key, values.map(value => JSON.stringify(value)))
   }
 
-  public removeKey(key: string) {
-    this._header.delete(key)
+  removeKey(key: string) {
+    this[HEADER].delete(key)
   }
 
-  public clearKey(key: string) {
-    this._header.set(key, [])
+  clearKey(key: string) {
+    this[HEADER].set(key, [])
   }
 }

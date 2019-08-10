@@ -16,10 +16,10 @@ export const config = {
 
 {
   class EnvironmentError extends Error {
-    public readonly name = 'EnvironmentError'
-    public readonly message: string
+    readonly name = 'EnvironmentError'
+    readonly message: string
 
-    public constructor(message: string) {
+    constructor(message: string) {
       super()
       this.message = message
     }

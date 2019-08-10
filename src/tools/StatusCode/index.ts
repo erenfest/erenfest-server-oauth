@@ -1,529 +1,535 @@
-import { STATUS_CODE } from '../../constants'
+import { STATUS_CODE_ENUM } from '../../constants'
+
+const STATUS_CODE = Symbol('statusCode')
 
 export class StatusCode {
   /**
    * 100 Continue
    * [[RFC7231, Section 6.2.1](https://tools.ietf.org/html/rfc7231#section-6.2.1)]
    */
-  public static get Continue() {
-    return new StatusCode(STATUS_CODE.CONTINUE)
+  static get Continue() {
+    return new StatusCode(STATUS_CODE_ENUM.CONTINUE)
   }
 
   /**
    * 101 Switching Protocols
    * [[RFC7231, Section 6.2.2](https://tools.ietf.org/html/rfc7231#section-6.2.2)]
    */
-  public static get SwitchingProtocol() {
-    return new StatusCode(STATUS_CODE.SWITCHING_PROTOCOL)
+  static get SwitchingProtocol() {
+    return new StatusCode(STATUS_CODE_ENUM.SWITCHING_PROTOCOL)
   }
 
   /**
    * 102 Processing
    * [[RFC2518](https://tools.ietf.org/html/rfc2518)]
    */
-  public static get Processing() {
-    return new StatusCode(STATUS_CODE.PROCESSING)
+  static get Processing() {
+    return new StatusCode(STATUS_CODE_ENUM.PROCESSING)
   }
 
   /**
    * 200 OK
    * [[RFC7231, Section 6.3.1](https://tools.ietf.org/html/rfc7231#section-6.3.1)]
    */
-  public static get Ok() {
-    return new StatusCode(STATUS_CODE.OK)
+  static get Ok() {
+    return new StatusCode(STATUS_CODE_ENUM.OK)
   }
 
   /**
    * 201 Created
    * [[RFC7231, Section 6.3.2](https://tools.ietf.org/html/rfc7231#section-6.3.2)]
    */
-  public static get Created() {
-    return new StatusCode(STATUS_CODE.CREATED)
+  static get Created() {
+    return new StatusCode(STATUS_CODE_ENUM.CREATED)
   }
 
   /**
    * 202 Accepted
    * [[RFC7231, Section 6.3.3](https://tools.ietf.org/html/rfc7231#section-6.3.3)]
    */
-  public static get Accepted() {
-    return new StatusCode(STATUS_CODE.ACCEPTED)
+  static get Accepted() {
+    return new StatusCode(STATUS_CODE_ENUM.ACCEPTED)
   }
 
   /**
    * 203 Non-Authoritative Information
    * [[RFC7231, Section 6.3.4](https://tools.ietf.org/html/rfc7231#section-6.3.4)]
    */
-  public static get NonAuthoritativeInformation() {
-    return new StatusCode(STATUS_CODE.NON_AUTHORITATIVE_INFORMATION)
+  static get NonAuthoritativeInformation() {
+    return new StatusCode(STATUS_CODE_ENUM.NON_AUTHORITATIVE_INFORMATION)
   }
 
   /**
    * 204 No Content
    * [[RFC7231, Section 6.3.5](https://tools.ietf.org/html/rfc7231#section-6.3.5)]
    */
-  public static get NoContent() {
-    return new StatusCode(STATUS_CODE.NO_CONTENT)
+  static get NoContent() {
+    return new StatusCode(STATUS_CODE_ENUM.NO_CONTENT)
   }
 
   /**
    * 205 Reset Content
    * [[RFC7231, Section 6.3.6](https://tools.ietf.org/html/rfc7231#section-6.3.6)]
    */
-  public static get ResetContent() {
-    return new StatusCode(STATUS_CODE.RESET_CONTENT)
+  static get ResetContent() {
+    return new StatusCode(STATUS_CODE_ENUM.RESET_CONTENT)
   }
 
   /**
    * 206 Partial Content
    * [[RFC7233, Section 4.1](https://tools.ietf.org/html/rfc7233#section-4.1)]
    */
-  public static get PartialContent() {
-    return new StatusCode(STATUS_CODE.PARTIAL_CONTENT)
+  static get PartialContent() {
+    return new StatusCode(STATUS_CODE_ENUM.PARTIAL_CONTENT)
   }
 
   /**
    * 207 Multi-Status
    * [[RFC4918](https://tools.ietf.org/html/rfc4918)]
    */
-  public static get MultiStatus() {
-    return new StatusCode(STATUS_CODE.MULTI_STATUS)
+  static get MultiStatus() {
+    return new StatusCode(STATUS_CODE_ENUM.MULTI_STATUS)
   }
 
   /**
    * 208 Already Reported
    * [[RFC5842](https://tools.ietf.org/html/rfc5842)]
    */
-  public static get AlreadyReported() {
-    return new StatusCode(STATUS_CODE.ALREADY_REPORTED)
+  static get AlreadyReported() {
+    return new StatusCode(STATUS_CODE_ENUM.ALREADY_REPORTED)
   }
 
   /**
    * 226 IM Used
    * [[RFC3229](https://tools.ietf.org/html/rfc3229)]
    */
-  public static get ImUsed() {
-    return new StatusCode(STATUS_CODE.IM_USED)
+  static get ImUsed() {
+    return new StatusCode(STATUS_CODE_ENUM.IM_USED)
   }
 
   /**
    * 300 Multiple Choices
    * [[RFC7231, Section 6.4.1](https://tools.ietf.org/html/rfc7231#section-6.4.1)]
    */
-  public static get MultipleChoices() {
-    return new StatusCode(STATUS_CODE.MULTIPLE_CHOICES)
+  static get MultipleChoices() {
+    return new StatusCode(STATUS_CODE_ENUM.MULTIPLE_CHOICES)
   }
 
   /**
    * 301 Moved Permanently
    * [[RFC7231, Section 6.4.2](https://tools.ietf.org/html/rfc7231#section-6.4.2)]
    */
-  public static get MovedPermanently() {
-    return new StatusCode(STATUS_CODE.MOVED_PERMANENTLY)
+  static get MovedPermanently() {
+    return new StatusCode(STATUS_CODE_ENUM.MOVED_PERMANENTLY)
   }
 
   /**
    * 302 Found
    * [[RFC7231, Section 6.4.3](https://tools.ietf.org/html/rfc7231#section-6.4.3)]
    */
-  public static get Found() {
-    return new StatusCode(STATUS_CODE.FOUND)
+  static get Found() {
+    return new StatusCode(STATUS_CODE_ENUM.FOUND)
   }
 
   /**
    * 303 See Other
    * [[RFC7231, Section 6.4.4](https://tools.ietf.org/html/rfc7231#section-6.4.4)]
    */
-  public static get SeeOther() {
-    return new StatusCode(STATUS_CODE.SEE_OTHER)
+  static get SeeOther() {
+    return new StatusCode(STATUS_CODE_ENUM.SEE_OTHER)
   }
 
   /**
    * 304 Not Modified
    * [[RFC7232, Section 4.1](https://tools.ietf.org/html/rfc7232#section-4.1)]
    */
-  public static get NotModified() {
-    return new StatusCode(STATUS_CODE.NOT_MODIFIED)
+  static get NotModified() {
+    return new StatusCode(STATUS_CODE_ENUM.NOT_MODIFIED)
   }
 
   /**
    * 305 Use Proxy
    * [[RFC7231, Section 6.4.5](https://tools.ietf.org/html/rfc7231#section-6.4.5)]
    */
-  public static get UseProxy() {
-    return new StatusCode(STATUS_CODE.USE_PROXY)
+  static get UseProxy() {
+    return new StatusCode(STATUS_CODE_ENUM.USE_PROXY)
   }
 
   /**
    * 307 Temporary Redirect
    * [[RFC7231, Section 6.4.7](https://tools.ietf.org/html/rfc7231#section-6.4.7)]
    */
-  public static get TemporaryRedirect() {
-    return new StatusCode(STATUS_CODE.TEMPORARY_REDIRECT)
+  static get TemporaryRedirect() {
+    return new StatusCode(STATUS_CODE_ENUM.TEMPORARY_REDIRECT)
   }
 
   /**
    * 308 Permanent Redirect
    * [[RFC7238](https://tools.ietf.org/html/rfc7238)]
    */
-  public static get PermanentRedirect() {
-    return new StatusCode(STATUS_CODE.PERMANENT_REDIRECT)
+  static get PermanentRedirect() {
+    return new StatusCode(STATUS_CODE_ENUM.PERMANENT_REDIRECT)
   }
 
   /**
    * 400 Bad Request
    * [[RFC7231, Section 6.5.1](https://tools.ietf.org/html/rfc7231#section-6.5.1)]
    */
-  public static get BadRequest() {
-    return new StatusCode(STATUS_CODE.BAD_REQUEST)
+  static get BadRequest() {
+    return new StatusCode(STATUS_CODE_ENUM.BAD_REQUEST)
   }
 
   /**
    * 401 Unauthorized
    * [[RFC7235, Section 3.1](https://tools.ietf.org/html/rfc7235#section-3.1)]
    */
-  public static get UnAuthorized() {
-    return new StatusCode(STATUS_CODE.UNAUTHORIZED)
+  static get UnAuthorized() {
+    return new StatusCode(STATUS_CODE_ENUM.UNAUTHORIZED)
   }
 
   /**
    * 402 Payment Required
    * [[RFC7231, Section 6.5.2](https://tools.ietf.org/html/rfc7231#section-6.5.2)]
    */
-  public static get PaymentRequired() {
-    return new StatusCode(STATUS_CODE.PAYMENT_REQUIRED)
+  static get PaymentRequired() {
+    return new StatusCode(STATUS_CODE_ENUM.PAYMENT_REQUIRED)
   }
 
   /**
    * 403 Forbidden
    * [[RFC7231, Section 6.5.3](https://tools.ietf.org/html/rfc7231#section-6.5.3)]
    */
-  public static get Forbidden() {
-    return new StatusCode(STATUS_CODE.FORBIDDEN)
+  static get Forbidden() {
+    return new StatusCode(STATUS_CODE_ENUM.FORBIDDEN)
   }
 
   /**
    * 404 Not Found
    * [[RFC7231, Section 6.5.4](https://tools.ietf.org/html/rfc7231#section-6.5.4)]
    */
-  public static get NotFound() {
-    return new StatusCode(STATUS_CODE.NOT_FOUND)
+  static get NotFound() {
+    return new StatusCode(STATUS_CODE_ENUM.NOT_FOUND)
   }
 
   /**
    * 405 Method Not Allowed
    * [[RFC7231, Section 6.5.5](https://tools.ietf.org/html/rfc7231#section-6.5.5)]
    */
-  public static get MethodNotAllowed() {
-    return new StatusCode(STATUS_CODE.METHOD_NOT_ALLOWED)
+  static get MethodNotAllowed() {
+    return new StatusCode(STATUS_CODE_ENUM.METHOD_NOT_ALLOWED)
   }
 
   /**
    * 406 Not Acceptable
    * [[RFC7231, Section 6.5.6](https://tools.ietf.org/html/rfc7231#section-6.5.6)]
    */
-  public static get NotAcceptable() {
-    return new StatusCode(STATUS_CODE.NOT_ACCEPTABLE)
+  static get NotAcceptable() {
+    return new StatusCode(STATUS_CODE_ENUM.NOT_ACCEPTABLE)
   }
 
   /**
    * 407 Proxy Authentication Required
    * [[RFC7235, Section 3.2](https://tools.ietf.org/html/rfc7235#section-3.2)]
    */
-  public static get ProxyAuthenticationRequired() {
-    return new StatusCode(STATUS_CODE.PROXY_AUTHENTICATION_REQUIRED)
+  static get ProxyAuthenticationRequired() {
+    return new StatusCode(STATUS_CODE_ENUM.PROXY_AUTHENTICATION_REQUIRED)
   }
 
   /**
    * 408 Request Timeout
    * [[RFC7231, Section 6.5.7](https://tools.ietf.org/html/rfc7231#section-6.5.7)]
    */
-  public static get RequestTimeout() {
-    return new StatusCode(STATUS_CODE.REQUEST_TIMEOUT)
+  static get RequestTimeout() {
+    return new StatusCode(STATUS_CODE_ENUM.REQUEST_TIMEOUT)
   }
 
   /**
    * 409 Conflict
    * [[RFC7231, Section 6.5.8](https://tools.ietf.org/html/rfc7231#section-6.5.8)]
    */
-  public static get Conflict() {
-    return new StatusCode(STATUS_CODE.CONFLICT)
+  static get Conflict() {
+    return new StatusCode(STATUS_CODE_ENUM.CONFLICT)
   }
 
   /**
    * 410 Gone
    * [[RFC7231, Section 6.5.9](https://tools.ietf.org/html/rfc7231#section-6.5.9)]
    */
-  public static get Gone() {
-    return new StatusCode(STATUS_CODE.GONE)
+  static get Gone() {
+    return new StatusCode(STATUS_CODE_ENUM.GONE)
   }
 
   /**
    * 411 Length Required
    * [[RFC7231, Section 6.5.10](https://tools.ietf.org/html/rfc7231#section-6.5.10)]
    */
-  public static get LengthRequired() {
-    return new StatusCode(STATUS_CODE.LENGTH_REQUIRED)
+  static get LengthRequired() {
+    return new StatusCode(STATUS_CODE_ENUM.LENGTH_REQUIRED)
   }
 
   /**
    * 412 Precondition Failed
    * [[RFC7232, Section 4.2](https://tools.ietf.org/html/rfc7232#section-4.2)]
    */
-  public static get PreconditionFailed() {
-    return new StatusCode(STATUS_CODE.PRECONDITION_FAILED)
+  static get PreconditionFailed() {
+    return new StatusCode(STATUS_CODE_ENUM.PRECONDITION_FAILED)
   }
 
   /**
    * 413 Payload Too Large
    * [[RFC7231, Section 6.5.11](https://tools.ietf.org/html/rfc7231#section-6.5.11)]
    */
-  public static get PayloadTooLarge() {
-    return new StatusCode(STATUS_CODE.PAYLOAD_TOO_LARGE)
+  static get PayloadTooLarge() {
+    return new StatusCode(STATUS_CODE_ENUM.PAYLOAD_TOO_LARGE)
   }
 
   /**
    * 414 URI Too Long
    * [[RFC7231, Section 6.5.12](https://tools.ietf.org/html/rfc7231#section-6.5.12)]
    */
-  public static get UriTooLong() {
-    return new StatusCode(STATUS_CODE.URI_TOO_LONG)
+  static get UriTooLong() {
+    return new StatusCode(STATUS_CODE_ENUM.URI_TOO_LONG)
   }
 
   /**
    * 415 Unsupported Media Type
    * [[RFC7231, Section 6.5.13](https://tools.ietf.org/html/rfc7231#section-6.5.13)]
    */
-  public static get UnsupportedMediaType() {
-    return new StatusCode(STATUS_CODE.UNSUPPORTED_MEDIA_TYPE)
+  static get UnsupportedMediaType() {
+    return new StatusCode(STATUS_CODE_ENUM.UNSUPPORTED_MEDIA_TYPE)
   }
 
   /**
    * 416 Range Not Satisfiable
    * [[RFC7233, Section 4.4](https://tools.ietf.org/html/rfc7233#section-4.4)]
    */
-  public static get RangeNotSatisfiable() {
-    return new StatusCode(STATUS_CODE.RANGE_NOT_SATISFIABLE)
+  static get RangeNotSatisfiable() {
+    return new StatusCode(STATUS_CODE_ENUM.RANGE_NOT_SATISFIABLE)
   }
 
   /**
    * 417 Expectation Failed
    * [[RFC7231, Section 6.5.14](https://tools.ietf.org/html/rfc7231#section-6.5.14)]
    */
-  public static get ExpectationFailed() {
-    return new StatusCode(STATUS_CODE.EXPECTATION_FAILED)
+  static get ExpectationFailed() {
+    return new StatusCode(STATUS_CODE_ENUM.EXPECTATION_FAILED)
   }
 
   /**
    * 418 I'm a teapot
    * curiously not registered by IANA but [RFC2324](https://tools.ietf.org/html/rfc2324)]
    */
-  public static get ImATeapot() {
-    return new StatusCode(STATUS_CODE.IM_A_TEAPOT)
+  static get ImATeapot() {
+    return new StatusCode(STATUS_CODE_ENUM.IM_A_TEAPOT)
   }
 
   /**
    * 421 Misdirected Request
    * [RFC7540, Section 9.1.2](http://tools.ietf.org/html/rfc7540#section-9.1.2)
    */
-  public static get MisdirectedRequest() {
-    return new StatusCode(STATUS_CODE.MISDIRECTED_REQUEST)
+  static get MisdirectedRequest() {
+    return new StatusCode(STATUS_CODE_ENUM.MISDIRECTED_REQUEST)
   }
 
   /**
    * 422 Unprocessable Entity
    * [[RFC4918](https://tools.ietf.org/html/rfc4918)]
    */
-  public static get UnprocessableEntity() {
-    return new StatusCode(STATUS_CODE.UNPROCESSABLE_ENTITY)
+  static get UnprocessableEntity() {
+    return new StatusCode(STATUS_CODE_ENUM.UNPROCESSABLE_ENTITY)
   }
 
   /**
    * 423 Locked
    * [[RFC4918](https://tools.ietf.org/html/rfc4918)]
    */
-  public static get Locked() {
-    return new StatusCode(STATUS_CODE.LOCKED)
+  static get Locked() {
+    return new StatusCode(STATUS_CODE_ENUM.LOCKED)
   }
 
   /**
    * 424 Failed Dependency
    * [[RFC4918](https://tools.ietf.org/html/rfc4918)]
    */
-  public static get FailedDependency() {
-    return new StatusCode(STATUS_CODE.FAILED_DEPENDENCY)
+  static get FailedDependency() {
+    return new StatusCode(STATUS_CODE_ENUM.FAILED_DEPENDENCY)
   }
 
   /**
    * 426 Upgrade Required
    * [[RFC7231, Section 6.5.15](https://tools.ietf.org/html/rfc7231#section-6.5.15)]
    */
-  public static get UpgradeRequired() {
-    return new StatusCode(STATUS_CODE.UPGRADE_REQUIRED)
+  static get UpgradeRequired() {
+    return new StatusCode(STATUS_CODE_ENUM.UPGRADE_REQUIRED)
   }
 
   /**
    * 428 Precondition Required
    * [[RFC6585](https://tools.ietf.org/html/rfc6585)]
    */
-  public static get PreconditionRequired() {
-    return new StatusCode(STATUS_CODE.PRECONDITION_REQUIRED)
+  static get PreconditionRequired() {
+    return new StatusCode(STATUS_CODE_ENUM.PRECONDITION_REQUIRED)
   }
 
   /**
    * 429 Too Many Requests
    * [[RFC6585](https://tools.ietf.org/html/rfc6585)]
    */
-  public static get TooManyRequests() {
-    return new StatusCode(STATUS_CODE.TOO_MANY_REQUESTS)
+  static get TooManyRequests() {
+    return new StatusCode(STATUS_CODE_ENUM.TOO_MANY_REQUESTS)
   }
 
   /**
    * 431 Request Header Fields Too Large
    * [[RFC6585](https://tools.ietf.org/html/rfc6585)]
    */
-  public static get RequestHeaderFieldsTooLarge() {
-    return new StatusCode(STATUS_CODE.REQUEST_HEADER_FIELDS_TOO_LARGE)
+  static get RequestHeaderFieldsTooLarge() {
+    return new StatusCode(STATUS_CODE_ENUM.REQUEST_HEADER_FIELDS_TOO_LARGE)
   }
 
   /**
    * 451 Unavailable For Legal Reasons
    * [[RFC7725](http://tools.ietf.org/html/rfc7725)]
    */
-  public static get UnavailableForLegalReasons() {
-    return new StatusCode(STATUS_CODE.UNAVAILABLE_FOR_LEGAL_REASONS)
+  static get UnavailableForLegalReasons() {
+    return new StatusCode(STATUS_CODE_ENUM.UNAVAILABLE_FOR_LEGAL_REASONS)
   }
 
   /**
    * 500 Internal Server Error
    * [[RFC7231, Section 6.6.1](https://tools.ietf.org/html/rfc7231#section-6.6.1)]
    */
-  public static get InternalServerError() {
-    return new StatusCode(STATUS_CODE.INTERNAL_SERVER_ERROR)
+  static get InternalServerError() {
+    return new StatusCode(STATUS_CODE_ENUM.INTERNAL_SERVER_ERROR)
   }
 
   /**
    * 501 Not Implemented
    * [[RFC7231, Section 6.6.2](https://tools.ietf.org/html/rfc7231#section-6.6.2)]
    */
-  public static get NotImplemented() {
-    return new StatusCode(STATUS_CODE.NOT_IMPLEMENTED)
+  static get NotImplemented() {
+    return new StatusCode(STATUS_CODE_ENUM.NOT_IMPLEMENTED)
   }
 
   /**
    * 502 Bad Gateway
    * [[RFC7231, Section 6.6.3](https://tools.ietf.org/html/rfc7231#section-6.6.3)]
    */
-  public static get BadGateway() {
-    return new StatusCode(STATUS_CODE.BAD_GATEWAY)
+  static get BadGateway() {
+    return new StatusCode(STATUS_CODE_ENUM.BAD_GATEWAY)
   }
 
   /**
    * 503 Service Unavailable
    * [[RFC7231, Section 6.6.4](https://tools.ietf.org/html/rfc7231#section-6.6.4)]
    */
-  public static get ServiceUnavailable() {
-    return new StatusCode(STATUS_CODE.SERVICE_UNAVAILABLE)
+  static get ServiceUnavailable() {
+    return new StatusCode(STATUS_CODE_ENUM.SERVICE_UNAVAILABLE)
   }
 
   /**
    * 504 Gateway Timeout
    * [[RFC7231, Section 6.6.5](https://tools.ietf.org/html/rfc7231#section-6.6.5)]
    */
-  public static get GatewayTimeout() {
-    return new StatusCode(STATUS_CODE.GATEWAY_TIMEOUT)
+  static get GatewayTimeout() {
+    return new StatusCode(STATUS_CODE_ENUM.GATEWAY_TIMEOUT)
   }
 
   /**
    * 505 HTTP Version Not Supported
    * [[RFC7231, Section 6.6.6](https://tools.ietf.org/html/rfc7231#section-6.6.6)]
    */
-  public static get HttpVersionNotSupported() {
-    return new StatusCode(STATUS_CODE.HTTP_VERSION_NOT_SUPPORTED)
+  static get HttpVersionNotSupported() {
+    return new StatusCode(STATUS_CODE_ENUM.HTTP_VERSION_NOT_SUPPORTED)
   }
 
   /**
    * 506 Variant Also Negotiates
    * [[RFC2295](https://tools.ietf.org/html/rfc2295)]
    */
-  public static get VariantAlsoNegotiates() {
-    return new StatusCode(STATUS_CODE.VARIANT_ALSO_NEGOTIATES)
+  static get VariantAlsoNegotiates() {
+    return new StatusCode(STATUS_CODE_ENUM.VARIANT_ALSO_NEGOTIATES)
   }
 
   /**
    * 507 Insufficient Storage
    * [[RFC4918](https://tools.ietf.org/html/rfc4918)]
    */
-  public static get InsufficientStorage() {
-    return new StatusCode(STATUS_CODE.INSUFFICIENT_STORAGE)
+  static get InsufficientStorage() {
+    return new StatusCode(STATUS_CODE_ENUM.INSUFFICIENT_STORAGE)
   }
 
   /**
    * 508 Loop Detected
    * [[RFC5842](https://tools.ietf.org/html/rfc5842)]
    */
-  public static get LoopDetected() {
-    return new StatusCode(STATUS_CODE.LOOP_DETECTED)
+  static get LoopDetected() {
+    return new StatusCode(STATUS_CODE_ENUM.LOOP_DETECTED)
   }
 
   /**
    * 510 Not Extended
    * [[RFC2774](https://tools.ietf.org/html/rfc2774)]
    */
-  public static get NotExtended() {
-    return new StatusCode(STATUS_CODE.NOT_EXTENDED)
+  static get NotExtended() {
+    return new StatusCode(STATUS_CODE_ENUM.NOT_EXTENDED)
   }
 
   /**
    * 511 Network Authentication Required
    * [[RFC6585](https://tools.ietf.org/html/rfc6585)]
    */
-  public static get NetworkAuthenticationRequired() {
-    return new StatusCode(STATUS_CODE.NETWORK_AUTHENTICATION_REQUIRED)
+  static get NetworkAuthenticationRequired() {
+    return new StatusCode(STATUS_CODE_ENUM.NETWORK_AUTHENTICATION_REQUIRED)
   }
 
-  private constructor(private _statusCode = STATUS_CODE.OK) {}
+  [STATUS_CODE]: STATUS_CODE_ENUM
 
-  public get raw() {
+  private constructor(statusCode = STATUS_CODE_ENUM.OK) {
+    this[STATUS_CODE] = statusCode
+  }
+
+  get raw() {
     return {
-      statusCode: this._statusCode,
+      statusCode: this[STATUS_CODE],
       description: this.description
     }
   }
 
-  public get statusCode() {
-    return this._statusCode
+  get statusCode() {
+    return this[STATUS_CODE]
   }
 
-  public get description() {
-    return STATUS_CODE[this._statusCode]
+  get description() {
+    return STATUS_CODE_ENUM[this[STATUS_CODE]]
   }
 
-  public get isInformational() {
-    const statusCode = this._statusCode
+  get isInformational() {
+    const statusCode = this[STATUS_CODE]
     return 100 <= statusCode && statusCode < 200
   }
 
-  public get isSuccess() {
-    const statusCode = this._statusCode
+  get isSuccess() {
+    const statusCode = this[STATUS_CODE]
     return 200 <= statusCode && statusCode < 300
   }
 
-  public get isRedirection() {
-    const statusCode = this._statusCode
+  get isRedirection() {
+    const statusCode = this[STATUS_CODE]
     return 300 <= statusCode && statusCode < 400
   }
 
-  public get isClientError() {
-    const statusCode = this._statusCode
+  get isClientError() {
+    const statusCode = this[STATUS_CODE]
     return 400 <= statusCode && statusCode < 500
   }
 
-  public get isServerError() {
-    const statusCode = this._statusCode
+  get isServerError() {
+    const statusCode = this[STATUS_CODE]
     return 500 <= statusCode && statusCode < 600
   }
 
-  public updateCode(statusCode: STATUS_CODE) {
-    this._statusCode = statusCode
+  updateCode(statusCode: STATUS_CODE_ENUM) {
+    this[STATUS_CODE] = statusCode
   }
 }

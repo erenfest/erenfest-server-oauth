@@ -3,13 +3,13 @@ import Time from 'dayjs'
 import { Payload } from '../../tools/Token/types'
 
 export class Auth<T = any> {
-  public static from<T = any>(payload: Payload<T>) {
+  static from<T = any>(payload: Payload<T>) {
     return new Auth(payload)
   }
 
-  public readonly issuedAt: Time.Dayjs
-  public readonly expiredAt: Time.Dayjs
-  public readonly data: T
+  readonly issuedAt: Time.Dayjs
+  readonly expiredAt: Time.Dayjs
+  readonly data: T
 
   private constructor({ iat, exp, data }: Payload<T>) {
     this.issuedAt = Time(iat)

@@ -1,23 +1,29 @@
+const BODY = Symbol('body')
+
 export class Body {
-  public static get Empty() {
+  static get Empty() {
     return new Body()
   }
 
-  public static create(body: any) {
+  static create(body: any) {
     return new Body(body)
   }
 
-  private constructor(private _body?: any) {}
+  [BODY]: any
 
-  public get body() {
-    return this._body
+  private constructor(body?: any) {
+    this[BODY] = body
   }
 
-  public get raw() {
-    return typeof this._body === 'object' ? JSON.stringify(this._body) : this._body
+  get body() {
+    return this[BODY]
   }
 
-  public update(body: any) {
-    this._body = body
+  get raw() {
+    return typeof this[BODY] === 'object' ? JSON.stringify(this[BODY]) : this[BODY]
+  }
+
+  update(body: any) {
+    this[BODY] = body
   }
 }
