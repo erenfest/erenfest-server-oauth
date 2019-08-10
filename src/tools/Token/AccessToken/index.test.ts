@@ -1,11 +1,11 @@
 import * as chai from 'chai'
 
-import { PROVIDER } from '../../../constants'
+import { PROVIDER_ENUM } from '../../../constants'
 import { Payload } from '../types'
 import { AccessToken, AccessTokenData, AccessTokenOption } from './index'
 
 describe('Access Token', () => {
-  const CREATE_DATA = (): AccessTokenData => ({ id: 1, provider: PROVIDER.ERENFEST, oauthId: '' })
+  const CREATE_DATA = (): AccessTokenData => ({ id: 1, provider: PROVIDER_ENUM.ERENFEST, oauthId: '' })
 
   it('Secret Key가 falsy하면 에러가 발생한다', () => {
     chai.should().throw(() => new AccessToken(''))

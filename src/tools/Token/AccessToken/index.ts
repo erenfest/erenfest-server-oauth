@@ -1,12 +1,12 @@
 import { verify, sign } from 'jsonwebtoken'
 
-import { PROVIDER } from '../../../constants'
+import { PROVIDER_ENUM } from '../../../constants'
 import { Data, Payload, Token, SignatureAlgorithm } from '../types'
 import { NoSecretKeyError } from '../Errors'
 
 export interface AccessTokenData extends Data {
   readonly id: number
-  readonly provider: PROVIDER
+  readonly provider: PROVIDER_ENUM
   readonly oauthId: string
 }
 
