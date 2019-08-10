@@ -1,23 +1,25 @@
+const COOKIE = Symbol('cookie')
+
 export class Cookie {
   public static get Empty() {
     return new Cookie()
   }
 
-  private _cookie = new Map<string, any>()
+  private [COOKIE] = new Map<string, any>()
 
   private constructor() {}
 
   public get isEmpty() {
-    return !!this.cookie.size
+    return !!this[COOKIE].size
   }
 
   public get cookie() {
-    return this._cookie
+    return this[COOKIE]
   }
 
   public toRaw(): Record<string, any> {
     const raw = {}
-    const cookie = this._cookie
+    const cookie = this[COOKIE]
     for (const [key, value] of cookie) {
       raw[key] = value
     }
@@ -25,14 +27,14 @@ export class Cookie {
   }
 
   public get(key: string) {
-    return this._cookie.get(key.toLowerCase())
+    return this[COOKIE].get(key.toLowerCase())
   }
 
   public set(cookie: Cookie) {
-    this._cookie = cookie.cookie
+    this[COOKIE] = cookie.cookie
   }
 
   public setKey(key: string, value: any) {
-    this._cookie.set(key.toLowerCase(), value)
+    this[COOKIE].set(key.toLowerCase(), value)
   }
 }

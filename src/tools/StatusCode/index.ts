@@ -1,5 +1,7 @@
 import { STATUS_CODE_ENUM } from '../../constants'
 
+const STATUS_CODE = Symbol('statusCode')
+
 export class StatusCode {
   /**
    * 100 Continue
@@ -528,6 +530,6 @@ export class StatusCode {
   }
 
   public updateCode(statusCode: STATUS_CODE_ENUM) {
-    this._statusCode = statusCode
+    this[STATUS_CODE] = statusCode
   }
 }

@@ -1,3 +1,5 @@
+const BODY = Symbol('body')
+
 export class Body {
   public static get Empty() {
     return new Body()
@@ -7,17 +9,21 @@ export class Body {
     return new Body(body)
   }
 
-  private constructor(private _body?: any) {}
+  private [BODY]: any
+
+  private constructor(body?: any) {
+    this[BODY] = body
+  }
 
   public get body() {
-    return this._body
+    return this[BODY]
   }
 
   public get raw() {
-    return typeof this._body === 'object' ? JSON.stringify(this._body) : this._body
+    return typeof this[BODY] === 'object' ? JSON.stringify(this[BODY]) : this[BODY]
   }
 
   public update(body: any) {
-    this._body = body
+    this[BODY] = body
   }
 }
