@@ -1,17 +1,14 @@
+import { validateRefreshToken } from '../../middleware'
+
 describe.skip('createAccessToken', () => {
-  it('Response 객체의 cookie에는 Refresh Token이 있다', async () => {
-    //
-  })
+  const SECRET_KEY = 'Secret Key'
+  validateRefreshToken.initialize(SECRET_KEY)
 
-  it('Response 객체의 cookie에는 Access Token이 있다', async () => {
-    //
-  })
+  describe('응답 검증', () => {
+    it('cookie에 Access Token이 있다')
 
-  it('Response 객체의 body에는 Refresh Token이 있다', async () => {
-    //
-  })
+    it('body에 Access Token이 있다')
 
-  it('Response 객체의 body에는 Access Token이 있다', async () => {
-    //
+    it('Access Token은 6시간 후에 만료한다')
   })
 })

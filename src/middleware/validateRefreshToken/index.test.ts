@@ -77,6 +77,16 @@ describe('validateRefreshToken', () => {
     chai.assert.deepEqual(isValidated, { isError: false })
   })
 
+  before('테스트를 위해 로그아웃 토큰을 등록한다', () => {
+    //
+  })
+
+  after('테스트 용도로 등록한 로그아웃 토큰을 정리한다', () => {
+    //
+  })
+
+  it.skip('로그아웃한 유저인지 확인한다')
+
   it('검증이 끝나면 Request 객체에 Auth 객체를 등록한다', async () => {
     const request = Request.Empty as import('../../types').Handler['request']
     const response = Response.Empty
