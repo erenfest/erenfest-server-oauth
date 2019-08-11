@@ -1,2 +1,2 @@
-export { PROVIDER_ENUM } from './PROVIDER_ENUM'
-export { STATUS_CODE_ENUM } from './STATUS_CODE_ENUM'
+export { ProviderEnum } from './ProviderEnum'
+export { StatusCodeEnum } from './StatusCodeEnum'
