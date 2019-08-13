@@ -10,10 +10,7 @@
     "development": "ts-node src/index.production.ts",
     "predeploy": "clear",
     "deploy": "serverless deploy --s production",
-    "prewebsocket": "clear",
-    "pretest": "clear",
-    "test": "mocha -r ts-node/register src/**/*.test.ts",
-    "serverless": "serverless"
+    "test": "bash scripts/test.sh"
   },
   "dependencies": {
     "@msgpack/msgpack": "^1.7.0",
