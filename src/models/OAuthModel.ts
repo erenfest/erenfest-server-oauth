@@ -56,8 +56,8 @@ OAuthModel.initialize = sequelize => {
     },
     {
       sequelize,
-      tableName: 'Auth',
-      modelName: 'Auth',
+      tableName: 'OAuth',
+      modelName: 'OAuth',
       updatedAt: false,
       deletedAt: true
     }
