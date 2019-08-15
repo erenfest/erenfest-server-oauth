@@ -1,28 +1,157 @@
+import chai from 'chai'
+
 import { validateRefreshToken } from '../../middleware'
+import { ProviderEnum } from '../../constants'
+import { initializeModels, UserModel } from '../../models'
+import { Request, Response } from '../../tools'
+import { handler } from './handler'
 
-describe.skip('signup', () => {
-  const SECRET_KEY = 'Secret Key'
-  validateRefreshToken.initialize(SECRET_KEY)
+type Handler = import('../../types').Handler
 
-  describe('요청 검증', () => {
-    it('제공자provider가 있는지 확인한다')
+const SECRET_KEY = 'Secret Key'
+validateRefreshToken.initialize(SECRET_KEY)
 
-    it('아이디가 있는지 확인한다')
+describe('signup', () => {
+  const PROVIDER = ProviderEnum.Erenfest
+  const EMAIL = 'test@example.com'
+  const PASSWORD = 'password1234'
+  const NICKNAME = 'test'
 
-    it('암호가 있는지 확인한다')
+  let userId: number
 
-    it('이메일이 있는지 확인한다')
+  before(async () => {
+    await initializeModels()
 
-    it('정책 동의 리스트가 있는지 확인한다')
+    const userModel = await UserModel.create({
+      provider: PROVIDER,
+      email: EMAIL,
+      password: PASSWORD,
+      nickname: NICKNAME
+    })
+    userId = userModel.id
   })
 
-  describe('응답 검증', () => {
-    it('cookie에 Refresh Token이 있다')
+  it('제공자provider가 있는지 확인한다', async () => {
+    const request = Request.Empty as Handler['request']
+    const response = Response.Empty
 
-    it('cookie에 Access Token이 있다')
+    Object.assign(request, {
+      body: {
+        email: EMAIL,
+        password: PASSWORD,
+        nickname: NICKNAME
+      }
+    })
+    const isValidated = await handler(request, response)
+      .then(() => ({ isError: true }))
+      .catch(() => ({ isError: false }))
 
-    it('body에 Refresh Token이 있다')
-
-    it('body에 Access Token이 있다')
+    chai.assert.deepEqual(isValidated, { isError: false })
   })
+
+  it('이메일이 있는지 확인한다', async () => {
+    const request = Request.Empty as Handler['request']
+    const response = Response.Empty
+
+    Object.assign(request, {
+      body: {
+        provider: PROVIDER,
+        password: PASSWORD,
+        nickname: NICKNAME
+      }
+    })
+    const isValidated = await handler(request, response)
+      .then(() => ({ isError: true }))
+      .catch(() => ({ isError: false }))
+
+    chai.assert.deepEqual(isValidated, { isError: false })
+  })
+
+  it('암호가 있는지 확인한다', async () => {
+    const request = Request.Empty as Handler['request']
+    const response = Response.Empty
+
+    Object.assign(request, {
+      body: {
+        provider: PROVIDER,
+        email: EMAIL,
+        nickname: NICKNAME
+      }
+    })
+    const isValidated = await handler(request, response)
+      .then(() => ({ isError: true }))
+      .catch(() => ({ isError: false }))
+
+    chai.assert.deepEqual(isValidated, { isError: false })
+  })
+
+  it('닉네임이 있는지 확인한다', async () => {
+    const request = Request.Empty as Handler['request']
+    const response = Response.Empty
+
+    Object.assign(request, {
+      body: {
+        provider: PROVIDER,
+        email: EMAIL,
+        password: PASSWORD
+      }
+    })
+    const isValidated = await handler(request, response)
+      .then(() => ({ isError: true }))
+      .catch(() => ({ isError: false }))
+
+    chai.assert.deepEqual(isValidated, { isError: false })
+  })
+
+  it('정책 동의 리스트가 있는지 확인한다')
+
+  it('해당 제공자에 중복 이메일인지 확인힌다', async () => {
+    const request = Request.Empty as Handler['request']
+    const response = Response.Empty as Handler['response']
+
+    Object.assign(request, {
+      body: {
+        provider: PROVIDER,
+        email: EMAIL,
+        password: PASSWORD,
+        nickname: NICKNAME + '1'
+      }
+    })
+    const isValidated = await handler(request, response)
+      .then(() => ({ isError: true }))
+      .catch(() => ({ isError: false }))
+
+    chai.assert.deepEqual(isValidated, { isError: false })
+  })
+
+  after(async () => {
+    await UserModel.destroy({ where: { id: userId } })
+  })
+
+  it('해당 제공자에 중복 별칭이 있는지 확인한다', async () => {
+    const request = Request.Empty as Handler['request']
+    const response = Response.Empty as Handler['response']
+
+    Object.assign(request, {
+      body: {
+        provider: PROVIDER,
+        email: 'a' + EMAIL,
+        password: PASSWORD,
+        nickname: NICKNAME
+      }
+    })
+    const isValidated = await handler(request, response)
+      .then(() => ({ isError: true }))
+      .catch(() => ({ isError: false }))
+
+    chai.assert.deepEqual(isValidated, { isError: false })
+  })
+
+  it('cookie에 Refresh Token이 있다')
+
+  it('cookie에 Access Token이 있다')
+
+  it('body에 Refresh Token이 있다')
+
+  it('body에 Access Token이 있다')
 })

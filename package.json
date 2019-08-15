@@ -10,10 +10,7 @@
     "development": "ts-node src/index.production.ts",
     "predeploy": "clear",
     "deploy": "serverless deploy --s production",
-    "prewebsocket": "clear",
-    "pretest": "clear",
-    "test": "mocha -r ts-node/register src/**/*.test.ts",
-    "serverless": "serverless"
+    "test": "bash scripts/test.sh"
   },
   "dependencies": {
     "@msgpack/msgpack": "^1.7.0",
@@ -22,7 +19,9 @@
     "dayjs": "^1.8.15",
     "dotenv": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
-    "ms": "^2.1.2"
+    "ms": "^2.1.2",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.14.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
@@ -35,6 +34,7 @@
     "@types/mocha": "^5.2.7",
     "@types/ms": "^0.7.30",
     "@types/node": "^12.6.9",
+    "@types/sequelize": "^4.28.4",
     "@types/serverless": "^1.18.2",
     "chai": "^4.2.0",
     "chalk": "^2.4.2",
