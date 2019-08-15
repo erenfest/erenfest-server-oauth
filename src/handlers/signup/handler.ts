@@ -1,6 +1,8 @@
+import Time from 'dayjs'
+
 import { ProviderEnum } from '../../constants'
-import { UserModel } from '../../models'
-import { DuplicatedEmailError, DuplicatedNicknameError } from '../../tools'
+import { UserModel, OAuthModel } from '../../models'
+import { DuplicatedEmailError, DuplicatedNicknameError, RefreshToken, AccessToken } from '../../tools'
 import { NotSupportedProviderError, InvalidEmailError, InvalidPasswordError, InvalidNicknameError } from './Errors'
 
 type Handler = import('../../types').Handler
@@ -13,19 +15,19 @@ type Body = Readonly<{
 }>
 
 const ProviderList = [ProviderEnum.Erenfest] as const
-const EmailPattern = /asd/
+const EmailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const PasswordPattern = /^\S{12,64}$/
 const NicknamePattern = /^\S{3,24}$/
 
 export const handler = async (request: Handler['request'], response: Handler['response']) => {
   const { provider, email, password, nickname } = request.body as Body
-  if (ProviderList.includes(provider)) {
+  if (!ProviderList.includes(provider)) {
     throw new NotSupportedProviderError()
-  } else if (EmailPattern.test(email || '')) {
+  } else if (!EmailPattern.test(email || '')) {
     throw new InvalidEmailError()
-  } else if (PasswordPattern.test(password || '')) {
+  } else if (!PasswordPattern.test(password || '')) {
     throw new InvalidPasswordError()
-  } else if (NicknamePattern.test(nickname || '')) {
+  } else if (!NicknamePattern.test(nickname || '')) {
     throw new InvalidNicknameError()
   }
 
@@ -36,14 +38,38 @@ export const handler = async (request: Handler['request'], response: Handler['re
       throw new DuplicatedNicknameError()
     }
   })
+
+  const userModel = await UserModel.create(request.body)
+  const oauthModel = await OAuthModel.create({ provider, authId: userModel.id, email })
+  const authorizationToken = await createAuthorizationTokens(oauthModel.id, provider)
+
+  response.cookie.setKey('Authorization', authorizationToken)
+  response.body.update(authorizationToken)
 }
 
 const hasEmailByProvider = async (provider: ProviderEnum, email: string) => {
-  const user = await UserModel.count({ where: { provider, email } })
+  const user = await UserModel.findOne({ where: { provider, email } })
   return !!user
 }
 
 const hasNicknameByProvider = async (provider: ProviderEnum, nickname: string) => {
   const user = await UserModel.count({ where: { provider, nickname } })
   return !!user
+}
+
+const createAuthorizationTokens = async (id: number, provider: ProviderEnum) => {
+  const issuedAt = new Date()
+  const [refreshToken, accessToken] = await Promise.all([
+    RefreshToken.encode(
+      { id },
+      {
+        issuedAt,
+        expiredAt: Time(issuedAt)
+          .add(7, 'day')
+          .toDate()
+      }
+    ),
+    AccessToken.encode({ id, provider }, { issuedAt })
+  ])
+  return JSON.stringify({ refreshToken, accessToken })
 }

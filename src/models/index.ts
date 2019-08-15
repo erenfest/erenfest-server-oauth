@@ -2,12 +2,20 @@ import { Sequelize } from 'sequelize'
 
 import { config } from '../config'
 import { UserModel } from './UserModel'
-import { AuthModel } from './OAuthModel'
+import { OAuthModel } from './OAuthModel'
 
 export { UserModel } from './UserModel'
-export { AuthModel } from './OAuthModel'
+export { OAuthModel } from './OAuthModel'
+
+let isInitialized = false
 
 export const initializeModels = async () => {
+  if (isInitialized) {
+    return
+  }
+
+  isInitialized = true
+
   const sequelize = new Sequelize({
     host: config.awsRdsHost,
     username: config.awsRdsUsername,
@@ -27,7 +35,7 @@ export const initializeModels = async () => {
   })
 
   UserModel.initialize(sequelize)
-  AuthModel.initialize(sequelize)
+  OAuthModel.initialize(sequelize)
 
   await sequelize.sync()
 }

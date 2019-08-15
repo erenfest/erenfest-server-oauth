@@ -1,36 +1,23 @@
 import { verify, sign } from 'jsonwebtoken'
 
 import { ProviderEnum } from '../../../constants'
-import { Data, Payload, Token, SignatureAlgorithm } from '../types'
-import { NoSecretKeyError } from '../Errors'
+import { config } from '../../../config'
+import { Data, Payload, SignatureAlgorithm } from '../types'
 
 export interface AccessTokenData extends Data {
   readonly id: number
   readonly provider: ProviderEnum
-  readonly oauthId: string
 }
 
 export interface AccessTokenOption {
-  readonly issuedAt?: Date
+  readonly issuedAt: Date
 }
 
-const SECRET_KEY = Symbol('secretKey')
-
-export class AccessToken implements Token<AccessTokenData> {
-  readonly [SECRET_KEY]: string
-
-  constructor(secretKey: string) {
-    if (!secretKey) {
-      throw new NoSecretKeyError()
-    }
-
-    this[SECRET_KEY] = secretKey
-  }
-
-  async encode(data: AccessTokenData, { issuedAt = new Date() }: AccessTokenOption = {}) {
+export const AccessToken = {
+  async encode(data: AccessTokenData, { issuedAt }: AccessTokenOption) {
     return new Promise<string>((resolve, reject) => {
       const payload = { iat: issuedAt.getTime(), data }
-      sign(payload, this[SECRET_KEY], { algorithm: SignatureAlgorithm.Hs256, expiresIn: '6h' }, (error, token) => {
+      sign(payload, config.accessTokenSecretKey, { algorithm: SignatureAlgorithm.Hs256, expiresIn: '6h' }, (error, token) => {
         if (error) {
           reject(error)
         } else {
@@ -38,11 +25,10 @@ export class AccessToken implements Token<AccessTokenData> {
         }
       })
     })
-  }
-
+  },
   async decode(token: string) {
     return new Promise<Payload<AccessTokenData>>((resolve, reject) => {
-      verify(token, this[SECRET_KEY], (error, payload) => {
+      verify(token, config.accessTokenSecretKey, (error, payload) => {
         if (error) {
           reject(error)
         } else {

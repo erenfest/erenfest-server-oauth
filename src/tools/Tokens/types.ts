@@ -12,11 +12,6 @@ export interface Payload<D extends Data> {
   readonly data: D
 }
 
-export interface Token<D extends Data> {
-  readonly encode: (payload: D, option?: any) => Promise<string>
-  readonly decode: (token: string) => Promise<Payload<D>>
-}
-
 export const enum SignatureAlgorithm {
   Hs256 = 'HS256',
   Hs384 = 'HS384',

@@ -17,8 +17,6 @@ export interface PacketFactory {
 }
 
 export type Handler = Readonly<{
-  request: import('./tools/createHandler/Request').Request & {
-    readonly auth: import('./middleware/validateRefreshToken/Auth').Auth
-  }
+  request: import('./tools/createHandler/Request').Request
   response: import('./tools/createHandler/Response').Response
 }>

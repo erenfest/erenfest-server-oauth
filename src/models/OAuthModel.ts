@@ -2,7 +2,7 @@ import { Model, Sequelize, INTEGER, STRING, DATE, NOW } from 'sequelize'
 
 import { ProviderEnum } from '../constants'
 
-export class AuthModel extends Model {
+export class OAuthModel extends Model {
   static initialize: (sequelize: Sequelize) => void
 
   readonly id: number
@@ -13,8 +13,8 @@ export class AuthModel extends Model {
   readonly deletedAt: Date
 }
 
-AuthModel.initialize = sequelize => {
-  AuthModel.init(
+OAuthModel.initialize = sequelize => {
+  OAuthModel.init(
     {
       id: {
         type: INTEGER,

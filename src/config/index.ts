@@ -9,6 +9,7 @@ export const config = {
 
   refreshTokenSecretKey: process.env.REFRESH_TOKEN_SECRET_KEY!,
   accessTokenSecretKey: process.env.ACCESS_TOKEN_SECRET_KEY!,
+
   awsDynamoDbEnpoint: process.env.AWS_DYNAMO_DB_ENDPOINT!,
   awsDyanmoDbRegion: process.env.AWS_DYNAMO_DB_REGION!,
   awsDynamoDbAccessKeyId: process.env.AWS_DYNAMO_DB_ACCESS_KEY_ID!,

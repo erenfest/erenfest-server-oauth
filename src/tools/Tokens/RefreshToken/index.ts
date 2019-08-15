@@ -1,7 +1,7 @@
 import { verify, sign } from 'jsonwebtoken'
 
-import { Data, Payload, Token, SignatureAlgorithm } from '../types'
-import { NoSecretKeyError } from '../Errors'
+import { config } from '../../../config'
+import { Data, Payload, SignatureAlgorithm } from '../types'
 
 export interface RefreshTokenData extends Data {
   readonly id: number
@@ -12,23 +12,11 @@ export interface RefreshTokenOption {
   readonly expiredAt: Date
 }
 
-const SECRET_KEY = Symbol('secretKey')
-
-export class RefreshToken implements Token<RefreshTokenData> {
-  readonly [SECRET_KEY]: string
-
-  constructor(secretKey: string) {
-    if (!secretKey) {
-      throw new NoSecretKeyError()
-    }
-
-    this[SECRET_KEY] = secretKey
-  }
-
+export const RefreshToken = {
   async encode(data: RefreshTokenData, { issuedAt, expiredAt }: RefreshTokenOption) {
     return new Promise<string>((resolve, reject) => {
       const payload = { iat: issuedAt.getTime(), exp: expiredAt.getTime(), data }
-      sign(payload, this[SECRET_KEY], { algorithm: SignatureAlgorithm.Hs256 }, (error, token) => {
+      sign(payload, config.refreshTokenSecretKey, { algorithm: SignatureAlgorithm.Hs256 }, (error, token) => {
         if (error) {
           reject(error)
         } else {
@@ -36,11 +24,10 @@ export class RefreshToken implements Token<RefreshTokenData> {
         }
       })
     })
-  }
-
+  },
   async decode(token: string) {
     return new Promise<Payload<RefreshTokenData>>((resolve, reject) => {
-      verify(token, this[SECRET_KEY], (error, payload) => {
+      verify(token, config.refreshTokenSecretKey, (error, payload) => {
         if (error) {
           reject(error)
         } else {
