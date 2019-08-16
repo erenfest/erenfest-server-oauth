@@ -2,10 +2,8 @@ import { Sequelize } from 'sequelize'
 
 import { config } from '../config'
 import { UserModel } from './UserModel'
-import { OAuthModel } from './OAuthModel'
 
 export { UserModel } from './UserModel'
-export { OAuthModel } from './OAuthModel'
 
 let isInitialized = false
 
@@ -35,7 +33,6 @@ export const initializeModels = async () => {
   })
 
   UserModel.initialize(sequelize)
-  OAuthModel.initialize(sequelize)
 
   await sequelize.sync()
 }
