@@ -23,7 +23,7 @@ export const handler = async (request: Handler['request'], response: Handler['re
     throw new UnsupportedProviderError()
   } else if (!EmailPattern.test(email || '')) {
     throw new InvalidEmailError()
-  } else if (PasswordPattern.test(password || '')) {
+  } else if (!PasswordPattern.test(password || '')) {
     throw new InvalidPasswordError()
   }
 
