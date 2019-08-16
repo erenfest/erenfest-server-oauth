@@ -1,5 +1,5 @@
 import { ProviderEnum } from '../../constants'
-import { OAuthModel } from '../../models'
+import { UserModel } from '../../models'
 import { UnsupportedProviderError, InvalidEmailError } from './Errors'
 
 type Handler = import('../../types').Handler
@@ -24,6 +24,6 @@ export const handler = async (request: Handler['request'], response: Handler['re
 }
 
 const hasEmailByProvider = async (provider: typeof ProviderList[number], email: string) => {
-  const oauthModel = await OAuthModel.count({ where: { provider, email } })
-  return !!oauthModel
+  const userModel = await UserModel.count({ where: { provider, email } })
+  return !!userModel
 }

@@ -1,7 +1,7 @@
 import chai from 'chai'
 
 import { ProviderEnum } from '../../constants'
-import { initializeModels, UserModel, OAuthModel } from '../../models'
+import { initializeModels, UserModel } from '../../models'
 import { Request, Response, AccessToken } from '../../tools'
 import { handler } from './handler'
 
@@ -166,9 +166,7 @@ describe('signup', () => {
     after(async () => {
       const { accessToken } = JSON.parse(response.body.body)
       const { data } = await AccessToken.decode(accessToken)
-      const oauthModel = await OAuthModel.findOne({ where: { id: data.id } })
-      await oauthModel!.destroy()
-      await UserModel.destroy({ where: { id: oauthModel!.authId } })
+      await UserModel.destroy({ where: { id: data.id } })
     })
 
     it('cookie에 Authorization 토큰이 있다', async () => {

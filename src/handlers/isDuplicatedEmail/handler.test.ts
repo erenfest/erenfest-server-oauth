@@ -2,7 +2,7 @@ import chai from 'chai'
 
 import { Request, Response } from '../../tools'
 import { ProviderEnum } from '../../constants'
-import { OAuthModel, UserModel, initializeModels } from '../../models'
+import { UserModel, initializeModels } from '../../models'
 import { handler } from './handler'
 
 type Handler = import('../../types').Handler
@@ -75,13 +75,12 @@ describe('isDuplicatedEmail', () => {
         password: 'password1234',
         nickname: 'is-duplicated-email'
       })
-      const oauthModel = await OAuthModel.create({ provider: PROVIDER, email: EMAIL, authId: userModel.id })
 
       await handler(request, response)
 
       chai.should().equal(response.body.body, true)
 
-      await Promise.all([userModel.destroy(), oauthModel.destroy()])
+      await userModel.destroy()
     })
   })
 })

@@ -1,6 +1,6 @@
 import chai from 'chai'
 
-import { initializeModels, UserModel, OAuthModel } from '../../models'
+import { initializeModels, UserModel } from '../../models'
 import { Request, Response } from '../../tools'
 import { ProviderEnum } from '../../constants'
 import { handler } from './handler'
@@ -87,19 +87,15 @@ describe('signin', () => {
     const response = Response.Empty
 
     let userId: number
-    let oauthId: number
 
     before(async () => {
       const userModel = await UserModel.create({ provider: PROVIDER, email: EMAIL, password: PASSWORD, nickname: 'signin.test' })
-      const oauthModel = await OAuthModel.create({ provider: PROVIDER, authId: userModel.id, email: EMAIL })
 
       userId = userModel.id
-      oauthId = oauthModel.id
     })
 
     after(async () => {
-      console.log('after')
-      await Promise.all([UserModel.destroy({ where: { id: userId } }), OAuthModel.destroy({ where: { id: oauthId } })])
+      await UserModel.destroy({ where: { id: userId } })
     })
 
     it('Authorization 토큰이 있다', async () => {
