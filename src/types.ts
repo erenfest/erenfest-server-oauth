@@ -17,6 +17,9 @@ export interface PacketFactory {
 }
 
 export type Handler = Readonly<{
-  request: import('./tools/createHandler/Request').Request
+  request: import('./tools/createHandler/Request').Request &
+    Readonly<{
+      auth: ReturnType<typeof import('./tools')['RefreshToken']['decode']> extends Promise<infer T> ? T : never
+    }>
   response: import('./tools/createHandler/Response').Response
 }>
