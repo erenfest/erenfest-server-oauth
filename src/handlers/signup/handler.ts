@@ -1,7 +1,7 @@
 import Time from 'dayjs'
 
 import { ProviderEnum } from '../../constants'
-import { UserModel, OAuthModel } from '../../models'
+import { UserModel } from '../../models'
 import { DuplicatedEmailError, DuplicatedNicknameError, RefreshToken, AccessToken } from '../../tools'
 import { UnsupportedProviderError, InvalidEmailError, InvalidPasswordError, InvalidNicknameError } from './Errors'
 
@@ -39,22 +39,21 @@ export const handler = async (request: Handler['request'], response: Handler['re
     }
   })
 
-  const userModel = await UserModel.create(request.body)
-  const oauthModel = await OAuthModel.create({ provider, authId: userModel.id, email })
-  const authorizationToken = await createAuthorizationTokens(oauthModel.id, provider)
+  const userModel = await UserModel.create({ provider, email, password, nickname })
+  const authorizationToken = await createAuthorizationTokens(userModel.id, provider)
 
   response.cookie.setKey('Authorization', authorizationToken)
   response.body.update(authorizationToken)
 }
 
 const hasEmailByProvider = async (provider: typeof ProviderList[number], email: string) => {
-  const user = await UserModel.findOne({ where: { provider, email } })
-  return !!user
+  const userModel = await UserModel.findOne({ where: { provider, email } })
+  return !!userModel
 }
 
 const hasNicknameByProvider = async (provider: typeof ProviderList[number], nickname: string) => {
-  const user = await UserModel.count({ where: { provider, nickname } })
-  return !!user
+  const userModel = await UserModel.count({ where: { provider, nickname } })
+  return !!userModel
 }
 
 const createAuthorizationTokens = async (id: number, provider: typeof ProviderList[number]) => {

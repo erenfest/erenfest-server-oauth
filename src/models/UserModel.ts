@@ -48,7 +48,7 @@ UserModel.initialize = sequelize => {
         type: STRING(24),
         allowNull: false,
         validate: {
-          len: [1, 24]
+          len: [3, 24]
         }
       },
       createdAt: {
@@ -67,11 +67,14 @@ UserModel.initialize = sequelize => {
       tableName: 'User',
       modelName: 'User',
       updatedAt: false,
-      deletedAt: true,
       indexes: [
         {
           unique: true,
           fields: ['provider', 'email']
+        },
+        {
+          unique: true,
+          fields: ['provider', 'nickname']
         }
       ]
     }

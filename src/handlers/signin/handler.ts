@@ -1,7 +1,7 @@
 import Time from 'dayjs'
 
 import { ProviderEnum } from '../../constants'
-import { OAuthModel } from '../../models'
+import { UserModel } from '../../models'
 import { RefreshToken, AccessToken } from '../../tools'
 import { UnsupportedProviderError, InvalidEmailError, InvalidPasswordError, NoAccountError } from './Errors'
 
@@ -27,19 +27,19 @@ export const handler = async (request: Handler['request'], response: Handler['re
     throw new InvalidPasswordError()
   }
 
-  const oauthModel = await findOAuthByProvider(provider, email)
-  const authorizationToken = await createAuthorizationTokens(oauthModel.id, provider)
+  const userModel = await findUserByProvider(provider, email)
+  const authorizationToken = await createAuthorizationTokens(userModel.id, provider)
 
   response.cookie.setKey('Authorization', authorizationToken)
   response.body.update(authorizationToken)
 }
 
-const findOAuthByProvider = async (provider: typeof ProviderList[number], email: string) => {
-  const oauthModel = await OAuthModel.findOne({ where: { provider, email } })
-  if (!oauthModel) {
+const findUserByProvider = async (provider: typeof ProviderList[number], email: string) => {
+  const userModel = await UserModel.findOne({ where: { provider, email } })
+  if (!userModel) {
     throw new NoAccountError()
   }
-  return oauthModel
+  return userModel
 }
 
 const createAuthorizationTokens = async (id: number, provider: ProviderEnum) => {
