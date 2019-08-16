@@ -3,7 +3,7 @@ import Time from 'dayjs'
 import { ProviderEnum } from '../../constants'
 import { UserModel, OAuthModel } from '../../models'
 import { DuplicatedEmailError, DuplicatedNicknameError, RefreshToken, AccessToken } from '../../tools'
-import { NotSupportedProviderError, InvalidEmailError, InvalidPasswordError, InvalidNicknameError } from './Errors'
+import { UnsupportedProviderError, InvalidEmailError, InvalidPasswordError, InvalidNicknameError } from './Errors'
 
 type Handler = import('../../types').Handler
 
@@ -22,7 +22,7 @@ const NicknamePattern = /^\S{3,24}$/
 export const handler = async (request: Handler['request'], response: Handler['response']) => {
   const { provider, email, password, nickname } = request.body as Body
   if (!ProviderList.includes(provider)) {
-    throw new NotSupportedProviderError()
+    throw new UnsupportedProviderError()
   } else if (!EmailPattern.test(email || '')) {
     throw new InvalidEmailError()
   } else if (!PasswordPattern.test(password || '')) {
@@ -47,17 +47,17 @@ export const handler = async (request: Handler['request'], response: Handler['re
   response.body.update(authorizationToken)
 }
 
-const hasEmailByProvider = async (provider: ProviderEnum, email: string) => {
+const hasEmailByProvider = async (provider: typeof ProviderList[number], email: string) => {
   const user = await UserModel.findOne({ where: { provider, email } })
   return !!user
 }
 
-const hasNicknameByProvider = async (provider: ProviderEnum, nickname: string) => {
+const hasNicknameByProvider = async (provider: typeof ProviderList[number], nickname: string) => {
   const user = await UserModel.count({ where: { provider, nickname } })
   return !!user
 }
 
-const createAuthorizationTokens = async (id: number, provider: ProviderEnum) => {
+const createAuthorizationTokens = async (id: number, provider: typeof ProviderList[number]) => {
   const issuedAt = new Date()
   const [refreshToken, accessToken] = await Promise.all([
     RefreshToken.encode(
