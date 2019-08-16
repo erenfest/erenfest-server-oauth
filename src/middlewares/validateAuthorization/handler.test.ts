@@ -1,7 +1,6 @@
 import chai from 'chai'
-import Time from 'dayjs'
 
-import { Request, Response, RefreshToken } from '../../tools'
+import { Request, Response } from '../../tools'
 import { handler } from './handler'
 
 describe('validateAuthorization', () => {
@@ -22,17 +21,7 @@ describe('validateAuthorization', () => {
   })
 
   it('Authorization 토큰이 올바른지 확인한다', async () => {
-    const issuedAt = Time().toDate()
-    const refreshToken = await RefreshToken.encode(
-      { id: 1 },
-      {
-        issuedAt,
-        expiredAt: Time(issuedAt)
-          .add(7, 'day')
-          .toDate()
-      }
-    )
-    Object.assign(request, { cookie: { Authorization: JSON.stringify({ refreshToken }) } })
+    Object.assign(request, { cookie: { Authorization: JSON.stringify({ refreshToken: 'fake' }) } })
 
     const isValidated = await handler(request, response)
       .then(() => ({ isError: true }))
