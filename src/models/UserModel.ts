@@ -27,7 +27,7 @@ UserModel.initialize = sequelize => {
         type: STRING(12),
         allowNull: false,
         validate: {
-          isIn: [[ProviderEnum.Google, ProviderEnum.Erenfest]]
+          isIn: [[ProviderEnum.Erenfest]]
         }
       },
       email: {

@@ -5,8 +5,8 @@ import { config } from '../../../config'
 import { Data, Payload, SignatureAlgorithm } from '../types'
 
 export interface AccessTokenData extends Data {
-  readonly id: number
   readonly provider: ProviderEnum
+  readonly id: number
 }
 
 export interface AccessTokenOption {

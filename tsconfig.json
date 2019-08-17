@@ -5,14 +5,14 @@
     "sourceMap": true,
     "allowJs": true,
     "target": "es6",
+    "module": "commonjs",
     "outDir": ".build",
     "moduleResolution": "node",
     "lib": ["es2015"],
     "esModuleInterop": true,
     "rootDir": "./",
     "downlevelIteration": true,
-    "jsx": "react",
-    "jsxFactory": "h",
     "resolveJsonModule": true
-  }
+  },
+  "include": ["node_modules"]
 }
