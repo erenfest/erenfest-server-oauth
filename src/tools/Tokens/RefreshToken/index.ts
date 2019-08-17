@@ -1,9 +1,11 @@
 import { verify, sign } from 'jsonwebtoken'
 
 import { config } from '../../../config'
+import { ProviderEnum } from '../../../constants'
 import { Data, Payload, SignatureAlgorithm } from '../types'
 
 export interface RefreshTokenData extends Data {
+  readonly provider: ProviderEnum
   readonly id: number
 }
 

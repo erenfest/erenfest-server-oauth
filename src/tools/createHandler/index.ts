@@ -1,27 +1,24 @@
-import { ApiGatewayEvent, Packet } from '../../types'
-import { HttpError, InternalServerError } from '../Errors'
+import { Request, Response, NextFunction } from 'express'
+
 import { StatusCode } from '../StatusCode'
-import { Request } from './Request'
-import { Response } from './Response'
 
-export { Request } from './Request'
-export { Response, Header, Cookie } from './Response'
+type Context = {
+  context: any
+}
 
-type Handler = (request: Request, response: Response) => void | Promise<void>
+type Handler = Readonly<{
+  validate?: (request: Request & Context, response: Response) => void | Promise<void>
+  handle: (request: Request & Context, response: Response) => void | Promise<void>
+}>
 
-export const createHandler = (...handlerList: readonly Handler[]) => async (event: ApiGatewayEvent, _context: any) => {
-  const request = Request.from(event)
-  const response = Response.Empty
-  let packet: null | Packet = null
-  try {
-    for (const handler of handlerList) {
-      await handler(request, response)
-    }
-    packet = response.toPacket()
-  } catch (error) {
-    const response = error instanceof HttpError ? Response.fromError(error) : Response.create(StatusCode.InternalServerError, error)
-    packet = response.toPacket()
-  } finally {
-    return packet || Response.fromError(new InternalServerError()).toPacket()
-  }
+export const createHandler = (handler: Handler) => async (preReqeust: Request & Context, response: Response, next: NextFunction) => {
+  const request = Object.assign(preReqeust, { context: preReqeust.context || {} })
+  Promise.resolve(handler.validate && handler.validate(request, response))
+    .then(() => handler.handle(request, response))
+    .then(next)
+    .catch(currentError => {
+      const error = currentError instanceof StatusCode ? currentError : StatusCode.InternalServerError
+      response.status(error.statusCode)
+      response.send({ error: error.raw })
+    })
 }

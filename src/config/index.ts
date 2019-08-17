@@ -10,11 +10,6 @@ export const config = {
   refreshTokenSecretKey: process.env.REFRESH_TOKEN_SECRET_KEY!,
   accessTokenSecretKey: process.env.ACCESS_TOKEN_SECRET_KEY!,
 
-  awsDynamoDbEnpoint: process.env.AWS_DYNAMO_DB_ENDPOINT!,
-  awsDyanmoDbRegion: process.env.AWS_DYNAMO_DB_REGION!,
-  awsDynamoDbAccessKeyId: process.env.AWS_DYNAMO_DB_ACCESS_KEY_ID!,
-  awsDynamoDbSecretAccessKey: process.env.AWS_DYNAMO_DB_SECRET_ACCESS_KEY!,
-
   awsRdsHost: process.env.AWS_RDS_HOST!,
   awsRdsPort: +process.env.AWS_RDS_PORT!,
   awsRdsUsername: process.env.AWS_RDS_USERNAME!,
@@ -46,6 +41,11 @@ export const config = {
 
   if (config.nodeEnv === 'example') {
     const message = `Run with environment variables`
+    throw new EnvironmentError(message)
+  }
+
+  if (config.isLocal && Number.isNaN(config.port)) {
+    const message = 'You must set the port'
     throw new EnvironmentError(message)
   }
 }

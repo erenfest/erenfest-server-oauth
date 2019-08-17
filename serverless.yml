@@ -5,76 +5,56 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: ${opt:stage}
-  region: ap-east-2
+  region: ap-northeast-2
   memorySize: ${self:custom.MEMORY_SIZE.${opt:stage, 'example'}}
   environment: ${file(.env.${opt:stage, 'example'}.yaml)}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:DescribeTable
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
+  apiKeys:
+    - erenfest-${self:provider.stage}
 
 plugins:
   - serverless-plugin-typescript
 
 custom:
-  serverless-offline:
-    port: ${self:custom.PORT.${opt:stage}}
-  PORT:
-    local: 3002
-    development: 3002
-    production: 3002
   MEMORY_SIZE:
-    local: 128
     development: 128
     production: 1024
+  CORS:
+    headers:
+      - Content-Type
+      - X-Amz-Date
+      - Authorization
+      - X-Api-Key
+      - X-Amz-Security-Token
+      - X-Amz-User-Agent
+    allowCredentials: true
 
 functions:
-  versioning:
-    handler: src/handlers/index.versioning
+  root:
+    handler: src/${opt:stage}.handler
     events:
       - http:
-        method: GET
-        path: /versioning
-
-  authorize:
-    handler: src/handlers/index.authorize
-
-  onConnect:
-    handler: src/handlers/index.onConnect
-    events:
-      - websocket:
-        route: $connect
-        auth: authorize
-
-  onDisconnect:
-    handler: src/handlers/index.onDisconnect
-    events:
-      - websocket:
-        route: $disconnect
-
-  root:
-    handler: src/handlers/index.root
-    events:
-      - websocket:
-        route: message
-
-resources:
-  Resources:
-    ChatTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: connectionId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: connectionId
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+          path: '/'
+          method: any
+          cors:
+            origin: https://81haojdvpc.execute-api.ap-northeast-2.amazonaws.com/
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+      - http:
+          path: '{proxy+}'
+          method: any
+          cors:
+            origin: https://81haojdvpc.execute-api.ap-northeast-2.amazonaws.com/
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true

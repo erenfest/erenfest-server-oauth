@@ -491,8 +491,8 @@ export class StatusCode {
 
   get raw() {
     return {
-      statusCode: this[STATUS_CODE],
-      description: this.description
+      name: this.name,
+      statusCode: this[STATUS_CODE]
     }
   }
 
@@ -500,7 +500,7 @@ export class StatusCode {
     return this[STATUS_CODE]
   }
 
-  get description() {
+  get name() {
     return StatusCodeEnum[this[STATUS_CODE]]
   }
 
