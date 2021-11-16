@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@msgpack/msgpack": "^1.7.0",
-    "aws-sdk": "^2.503.0",
+    "aws-sdk": "^2.814.0",
     "cookie": "^0.4.0",
     "dayjs": "^1.8.15",
     "dotenv": "^8.0.0",
